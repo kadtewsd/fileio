@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -34,9 +35,11 @@ public class CSVOutputSpecification {
 
     @SneakyThrows
     public ByteArrayOutputStream export2CSV() {
-        musicFestivals.forEach(musicFestival -> {
-            append(musicFestival);
-        });
+        // Bean をシリアライズすると、各行でヘッダーが出る。そのため、リストで丸ごとシリアライズする。
+        List<MusicFestival> rock = musicFestivals.stream().filter(musicFestival -> musicFestival.getArtist().getFileName() == FileNames.rock).collect(Collectors.toList());
+        append(rock);
+        List<MusicFestival> club = musicFestivals.stream().filter(musicFestival -> musicFestival.getArtist().getFileName() == FileNames.club).collect(Collectors.toList());
+        append(club);
 
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(result);
@@ -51,8 +54,9 @@ public class CSVOutputSpecification {
     }
 
 
-    private void append(MusicFestival musicFestival) {
-        StringBuilder stb = this.builders.get(musicFestival.getArtist().getFileName());
+    private void append(List<MusicFestival> musicFestival) {
+        if (musicFestival.size() == 0) return;
+        StringBuilder stb = this.builders.get(musicFestival.get(0).getArtist().getFileName());
         stb.append(formatter.write(musicFestival));
     }
 

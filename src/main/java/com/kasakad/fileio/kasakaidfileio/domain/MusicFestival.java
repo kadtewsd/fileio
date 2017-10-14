@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-@JsonPropertyOrder({"フェス名", "名前", "メンバー数", "順番, ジャンル"})
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonPropertyOrder(value = {"フェス名", "アーティスト名", "メンバー数", "順番", "ジャンル"})
+@JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.ANY, fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class MusicFestival {
 
     public MusicFestival(String name, Artist artist, int playOrder) {
