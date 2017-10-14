@@ -1,15 +1,13 @@
 package com.kasakad.fileio.kasakaidfileio.domain;
 
+import com.kasakad.fileio.kasakaidfileio.utility.ZipUtility;
 import lombok.SneakyThrows;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class CSVOutputSpecification {
@@ -23,14 +21,20 @@ public class CSVOutputSpecification {
     private JacksonCSVFormatter formatter;
 
     private List<MusicFestival> musicFestivals;
-    private Map<FileNames, StringBuilder> builders = new HashMap<>();
+    private Map<FileNames, StringBuilder> builders = new HashMap<FileNames, StringBuilder>() {
+        {
+            put(FileNames.rock, new StringBuilder());
+            put(FileNames.club, new StringBuilder());
+            put(FileNames.heavymetal, new StringBuilder());
+        }
+    };
+
+    private ZipUtility zipUtility;
 
     public CSVOutputSpecification(List<MusicFestival> list) {
         this.musicFestivals = list;
-        this.builders.put(FileNames.rock, new StringBuilder());
-        this.builders.put(FileNames.club, new StringBuilder());
-        this.builders.put(FileNames.heavymetal, new StringBuilder());
         this.formatter = new JacksonCSVFormatter();
+        this.zipUtility = new ZipUtility();
     }
 
     @SneakyThrows
@@ -44,9 +48,7 @@ public class CSVOutputSpecification {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(result);
         for (Map.Entry<FileNames, StringBuilder> entry : builders.entrySet()) {
-            if (entry.getValue().length() != 0) {
-                write(entry, zip);
-            }
+            write(entry, zip);
         }
         zip.closeEntry();
         zip.close();
@@ -62,13 +64,7 @@ public class CSVOutputSpecification {
 
     @SneakyThrows
     private void write(Map.Entry<FileNames, StringBuilder> target, ZipOutputStream zip) {
-        InputStream input = new ByteArrayInputStream(target.getValue().toString().getBytes());
-        ZipEntry entry = new ZipEntry(target.getKey().name() + ".csv");
-        zip.putNextEntry(entry);
-        byte[] buf = new byte[1024];
-        for (int len; 0 < (len = input.read(buf)); ) {
-            zip.write(buf, 0, len);
-        }
-        input.close();
+        if (target.getValue().length() == 0) return;
+        zipUtility.write(target.getKey() + ".csv", target.getValue().toString(), zip);
     }
 }
