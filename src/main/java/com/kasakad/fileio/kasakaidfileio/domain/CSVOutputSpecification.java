@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.zip.ZipOutputStream;
 
 public class CSVOutputSpecification {
 
@@ -45,14 +44,10 @@ public class CSVOutputSpecification {
         List<MusicFestival> club = musicFestivals.stream().filter(musicFestival -> musicFestival.getArtist().getFileName() == FileNames.club).collect(Collectors.toList());
         append(club);
 
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(result);
         for (Map.Entry<FileNames, StringBuilder> entry : builders.entrySet()) {
-            write(entry, zip);
+            write(entry);
         }
-        zip.closeEntry();
-        zip.close();
-        return result;
+        return zipUtility.getResult();
     }
 
 
@@ -63,8 +58,8 @@ public class CSVOutputSpecification {
     }
 
     @SneakyThrows
-    private void write(Map.Entry<FileNames, StringBuilder> target, ZipOutputStream zip) {
+    private void write(Map.Entry<FileNames, StringBuilder> target) {
         if (target.getValue().length() == 0) return;
-        zipUtility.write(target.getKey() + ".csv", target.getValue().toString(), zip);
+        zipUtility.write(target.getKey() + ".csv", target.getValue().toString());
     }
 }
