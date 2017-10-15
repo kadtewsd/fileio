@@ -50,7 +50,6 @@ public class CSVOutputSpecification {
         return zipUtility.getResult();
     }
 
-
     private void append(List<MusicFestival> musicFestival) {
         if (musicFestival.size() == 0) return;
         StringBuilder stb = this.builders.get(musicFestival.get(0).getArtist().getFileName());

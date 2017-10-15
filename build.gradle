@@ -27,7 +27,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('com.h2database:h2')
-	compile('com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.2.1')
+	compile('com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.8.8')
 	compile('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

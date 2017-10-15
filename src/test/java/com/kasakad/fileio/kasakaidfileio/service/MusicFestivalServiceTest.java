@@ -16,6 +16,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,6 +67,7 @@ public class MusicFestivalServiceTest {
     public void getMusicFestivalZip() throws Exception {
         ByteArrayOutputStream zip = service.getMusicFestivalZip();
         verifyCSV(zip);
+        output(zip);
     }
 
     public void verifyCSV(ByteArrayOutputStream output) {
@@ -87,6 +92,26 @@ public class MusicFestivalServiceTest {
             zipIn.closeEntry();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void output(ByteArrayOutputStream byteArrayOutputStream) {
+        log.info("write file...");
+        final String DIRECTORY = System.getProperty("user.home") + "/work";
+        final String FILENAME = DIRECTORY + "/artist.zip";
+        Path dir = Paths.get(DIRECTORY);
+        try {
+            if (!Files.isDirectory(dir)) {
+                Files.createDirectory(dir);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        Path path = Paths.get(FILENAME);
+        try {
+            Files.write(path, byteArrayOutputStream.toByteArray(), StandardOpenOption.CREATE);
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

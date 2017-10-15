@@ -1,7 +1,6 @@
 package com.kasakad.fileio.kasakaidfileio.utility;
 
 import lombok.SneakyThrows;
-import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,6 +33,8 @@ public class ZipUtility {
     private void close() {
         zip.closeEntry();
         zip.close();
+        //close メソッドでは何もしていない
+        //result.close();
     }
 
     public ByteArrayOutputStream getResult() {
