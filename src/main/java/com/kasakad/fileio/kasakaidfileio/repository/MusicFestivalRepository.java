@@ -7,6 +7,4 @@ import java.util.List;
 public interface MusicFestivalRepository {
 
     List<MusicFestival> findAll();
-
-    List<MusicFestival> findDummy();
 }

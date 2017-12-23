@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 @Component
 public class FileVerification extends AbstractMatchingFileSourceVerification<MusicFestival> {
@@ -45,7 +45,7 @@ public class FileVerification extends AbstractMatchingFileSourceVerification<Mus
         return test.stream()
                 .filter(x -> x.getId() == musicFestival.getId())
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("存在しないID" +  musicFestival.getId()));
+                .orElseThrow(() -> new RuntimeException("存在しないID" + musicFestival.getId()));
     }
 
 }

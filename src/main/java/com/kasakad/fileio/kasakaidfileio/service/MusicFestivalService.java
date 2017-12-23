@@ -18,7 +18,7 @@ public class MusicFestivalService {
     private final MusicFestivalRepository musiciansRepository;
 
     public ByteArrayOutputStream getMusicFestivalZip() {
-        List<MusicFestival> musicFestivalList = musiciansRepository.findDummy();
+        List<MusicFestival> musicFestivalList = musiciansRepository.findAll();
         CSVOutputSpecification specification = new CSVOutputSpecification(
                 createMusicFestivalDTO(musicFestivalList));
         return specification.export2CSV();
