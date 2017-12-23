@@ -29,5 +29,11 @@ dependencies {
 	runtime('com.h2database:h2')
 	compile('com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.8.8')
 	compile('org.projectlombok:lombok')
+	compile "org.lazyluke:log4jdbc-remix:0.2.7"
+	compile("org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16")
+
+	compile("org.springframework.boot:spring-boot-starter-jdbc")
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.dbunit:dbunit:2.5.1')
 }

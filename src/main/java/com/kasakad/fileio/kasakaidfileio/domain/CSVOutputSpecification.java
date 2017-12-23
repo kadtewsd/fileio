@@ -1,5 +1,6 @@
 package com.kasakad.fileio.kasakaidfileio.domain;
 
+import com.kasakad.fileio.kasakaidfileio.domain.fileoutput.MusicFestivalDTO;
 import com.kasakad.fileio.kasakaidfileio.utility.ZipUtility;
 import lombok.SneakyThrows;
 
@@ -19,7 +20,7 @@ public class CSVOutputSpecification {
 
     private JacksonCSVFormatter formatter;
 
-    private List<MusicFestival> musicFestivals;
+    private List<MusicFestivalDTO> musicFestivals;
     private Map<FileNames, StringBuilder> builders = new HashMap<FileNames, StringBuilder>() {
         {
             put(FileNames.rock, new StringBuilder());
@@ -30,7 +31,7 @@ public class CSVOutputSpecification {
 
     private ZipUtility zipUtility;
 
-    public CSVOutputSpecification(List<MusicFestival> list) {
+    public CSVOutputSpecification(List<MusicFestivalDTO> list) {
         this.musicFestivals = list;
         this.formatter = new JacksonCSVFormatter();
         this.zipUtility = new ZipUtility();
@@ -39,9 +40,9 @@ public class CSVOutputSpecification {
     @SneakyThrows
     public ByteArrayOutputStream export2CSV() {
         // Bean をシリアライズすると、各行でヘッダーが出る。そのため、リストで丸ごとシリアライズする。
-        List<MusicFestival> rock = musicFestivals.stream().filter(musicFestival -> musicFestival.getArtist().getFileName() == FileNames.rock).collect(Collectors.toList());
+        List<MusicFestivalDTO> rock = musicFestivals.stream().filter(musicFestival -> musicFestival.getArtist().getFileName() == FileNames.rock).collect(Collectors.toList());
         append(rock);
-        List<MusicFestival> club = musicFestivals.stream().filter(musicFestival -> musicFestival.getArtist().getFileName() == FileNames.club).collect(Collectors.toList());
+        List<MusicFestivalDTO> club = musicFestivals.stream().filter(musicFestival -> musicFestival.getArtist().getFileName() == FileNames.club).collect(Collectors.toList());
         append(club);
 
         for (Map.Entry<FileNames, StringBuilder> entry : builders.entrySet()) {
@@ -50,7 +51,7 @@ public class CSVOutputSpecification {
         return zipUtility.getResult();
     }
 
-    private void append(List<MusicFestival> musicFestival) {
+    private void append(List<MusicFestivalDTO> musicFestival) {
         if (musicFestival.size() == 0) return;
         StringBuilder stb = this.builders.get(musicFestival.get(0).getArtist().getFileName());
         stb.append(formatter.write(musicFestival));

@@ -1,0 +1,6 @@
+genre
+artists
+group_artist
+solo
+testData.music_festival
+festival_artist

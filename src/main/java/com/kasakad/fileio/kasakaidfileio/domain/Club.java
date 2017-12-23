@@ -1,8 +1,14 @@
 package com.kasakad.fileio.kasakaidfileio.domain;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("club")
 public class Club extends Artist {
-    public Club(String artistName, int members) {
-        super(artistName, members);
+
+    public Club(int id, String artistName, int members) {
+        super(id, artistName, members);
     }
 
     @Override

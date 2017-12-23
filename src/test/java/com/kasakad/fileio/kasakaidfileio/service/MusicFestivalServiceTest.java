@@ -1,117 +1,46 @@
 package com.kasakad.fileio.kasakaidfileio.service;
 
-import com.kasakad.fileio.kasakaidfileio.KasakaidfileioApplication;
-import com.kasakad.fileio.kasakaidfileio.domain.Club;
-import com.kasakad.fileio.kasakaidfileio.domain.JacksonCSVFormatter;
+import com.kasakad.fileio.kasakaidfileio.AbstractBaseTest;
 import com.kasakad.fileio.kasakaidfileio.domain.MusicFestival;
-import com.kasakad.fileio.kasakaidfileio.domain.Rock;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
-@SpringBootTest(classes = {KasakaidfileioApplication.class})
-@RunWith(SpringRunner.class)
 @Slf4j
-public class MusicFestivalServiceTest {
+public class MusicFestivalServiceTest extends AbstractBaseTest {
 
     @Autowired
     private MusicFestivalService service;
 
-    private JacksonCSVFormatter formatter = new JacksonCSVFormatter();
+    @Autowired
+    private ZipFileVerification zipFileVerification;
 
-    private List<MusicFestival> rock = new LinkedList<MusicFestival>() {
-        {
-            add(new MusicFestival("ROCK IN JAPAN FESTIVAL 2017", new Rock("ゴールデンボンバー", 5), 1));
-            add(new MusicFestival("ROCK IN JAPAN FESTIVAL 2017", new Rock("Dragon Ash", 7), 2));
-            add(new MusicFestival("METROCK 2016", new Rock("ゲスの極み乙女", 4), 7));
-        }
-    };
-
-    private List<MusicFestival> club = new LinkedList<MusicFestival>() {
-        {
-            add(new MusicFestival("ROCK IN JAPAN FESTIVAL 2017", new Club("水曜日のカンパネラ", 3), 5));
-            add(new MusicFestival("METROCK 2016", new Club("サカナクション", 5), 8));
-        }
-    };
-
-    private String clubExpected;
-    private String rockExpected;
+    @Autowired
+    private FileVerification fileVerification;
 
     @Before
     public void setUp() {
-        clubExpected = formatter.write(club);
-        rockExpected = formatter.write(rock);
+        super.setup();
+        zipFileVerification.readyToVerify();
     }
 
     @Test
     public void getMusicFestivalZip() throws Exception {
         ByteArrayOutputStream zip = service.getMusicFestivalZip();
-        verifyCSV(zip);
-        output(zip);
+        zipFileVerification.verifyCSV(zip);
+        zipFileVerification.output(zip);
     }
 
-    public void verifyCSV(ByteArrayOutputStream output) {
-        // 以下、zipを展開して、中身を確認する
-        try (ZipInputStream zipIn = new ZipInputStream(new ByteArrayInputStream(output.toByteArray()))) {
-            byte[] buffer = new byte[1024];
-            ZipEntry zipEntry = zipIn.getNextEntry();
-            int size;
-            while (0 < (size = zipIn.read(buffer))) {
-                log.info("file name is {}", zipEntry.getName());
-                String zipString = new String(Arrays.copyOf(buffer, size));
-                if (zipString.contains("rock")) {
-                    log.info("rock is \n {}", zipString);
-                    assertThat(zipEntry.getName(), is("rock.csv"));
-                    assertThat(zipString, is(rockExpected));
-                } else {
-                    log.info("club is \n {}", zipString);
-                    assertThat(zipString, is(clubExpected));
-                }
-                zipEntry = zipIn.getNextEntry();
-            }
-            zipIn.closeEntry();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void output(ByteArrayOutputStream byteArrayOutputStream) {
-        log.info("write file...");
-        final String DIRECTORY = System.getProperty("user.home") + "/work";
-        final String FILENAME = DIRECTORY + "/artist.zip";
-        Path dir = Paths.get(DIRECTORY);
-        try {
-            if (!Files.isDirectory(dir)) {
-                Files.createDirectory(dir);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        Path path = Paths.get(FILENAME);
-        try {
-            Files.write(path, byteArrayOutputStream.toByteArray(), StandardOpenOption.CREATE);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    @SneakyThrows
+    @Test
+    public void インプットと取得内容が同一である検証() {
+        myResource.insertData("music_festival");
+        List<MusicFestival> festivals = service.findAll();
+        fileVerification.verify(festivals);
     }
 }
