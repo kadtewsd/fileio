@@ -26,7 +26,6 @@ public class MusicFestivalServiceTest extends AbstractBaseTest {
     @Before
     public void setUp() {
         super.setup();
-        zipFileVerification.readyToVerify();
     }
 
     @Test

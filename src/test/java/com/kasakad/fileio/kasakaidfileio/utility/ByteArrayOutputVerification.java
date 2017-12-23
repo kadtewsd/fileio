@@ -25,6 +25,7 @@ public interface ByteArrayOutputVerification {
     int verifyClub(String zipString);
 
     default void verifyCSV(ByteArrayOutputStream output) {
+        this.readyToVerify();
         // 以下、zipを展開して、中身を確認する
         try (ZipInputStream zipIn = new ZipInputStream(new ByteArrayInputStream(output.toByteArray()))) {
             byte[] buffer = new byte[1024];
