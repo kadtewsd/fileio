@@ -1,4 +1,4 @@
-package com.kasakad.fileio.kasakaidfileio.service;
+package com.kasakad.fileio.kasakaidfileio.service.verification;
 
 import com.kasakad.fileio.kasakaidfileio.domain.Club;
 import com.kasakad.fileio.kasakaidfileio.domain.JacksonCSVFormatter;
