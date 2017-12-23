@@ -3,20 +3,15 @@ package com.kasakad.fileio.kasakaidfileio.service.verification;
 import com.kasakad.fileio.kasakaidfileio.AbstractMatchingFileSourceVerification;
 import com.kasakad.fileio.kasakaidfileio.domain.MusicFestival;
 import com.kasakad.fileio.kasakaidfileio.service.TestMusicFestivalDTO;
-import com.kasakad.fileio.kasakaidfileio.utility.TestFileReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 @Component
 public class FileVerification extends AbstractMatchingFileSourceVerification<MusicFestival> {
-
-    @Autowired
-    protected TestFileReader reader;
 
     protected String folderName() {
         return "music_festival";
@@ -32,7 +27,7 @@ public class FileVerification extends AbstractMatchingFileSourceVerification<Mus
     }
 
     protected int verify(List<MusicFestival> musicFestivals) {
-        List<TestMusicFestivalDTO> musicFestivalDTOList = reader.convertCSVFile2DTO(folderName(), fileName(), TestMusicFestivalDTO.class);
+        List<TestMusicFestivalDTO> musicFestivalDTOList = getDTOFromFile(TestMusicFestivalDTO.class);
         int result = 0;
         for (MusicFestival musicFestival : musicFestivals) {
             TestMusicFestivalDTO source = findSame(musicFestival, musicFestivalDTOList);
