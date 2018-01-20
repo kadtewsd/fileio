@@ -55,7 +55,7 @@ public class MusicFestivalControllerTest extends AbstractRestTest {
                 .andExpect(jsonPath("$.message", is("ミュージックフェスティバルが正常に登録されました。")))
                 .andExpect(jsonPath("$.musicFestival.id", is(1)))
                 .andExpect(jsonPath("$.musicFestival.name", is(musicFestivalRequestDTO.getName())))
-                .andExpect(jsonPath("$.musicFestival.eventDate", is(parser.deserialize(musicFestivalRequestDTO.getEventDate()))))
+                .andExpect(jsonPath("$.musicFestival.eventDate", is(parser.deserializeByISOStandard(musicFestivalRequestDTO.getEventDate()))))
                 .andExpect(jsonPath("$.musicFestival.musicFestivalPlace.country", is(musicFestivalRequestDTO.getCountry())))
                 .andExpect(jsonPath("$.musicFestival.musicFestivalPlace.city", is(musicFestivalRequestDTO.getCity())))
                 .andExpect(jsonPath("$.musicFestival.musicFestivalPlace.place", is(musicFestivalRequestDTO.getPlace())))

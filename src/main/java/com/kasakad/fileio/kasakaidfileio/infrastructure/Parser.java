@@ -18,12 +18,15 @@ public class Parser {
         return dateTimeFormatter().format(localDateTime);
     }
 
+    public String deserializeByISOStandard(LocalDateTime localDateTime) {
+        return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(localDateTime);
+    }
+
     /**
      * 日にちと時間の間にスペースを入れた方が入力しやすい希ガスので、ISO 標準を採用しません
      * @return
      */
     public DateTimeFormatter dateTimeFormatter() {
         return DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT);
-//        return DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     }
 }
