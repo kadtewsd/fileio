@@ -32,9 +32,9 @@ public class MusicFestivalRequestDTO extends MappedDTO {
     private final String place;
 
     @NotNull
-    private final MusicFestivalEntityType entityType;
+    private final MusicFestivalEntityType dtype;
 
     public EntityCreator<MusicFestivalRequestDTO, ? extends MusicFestival> getCreator() {
-        return this.entityType.getCreator();
+        return this.dtype.getCreator();
     }
 }

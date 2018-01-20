@@ -28,6 +28,6 @@ public class MusicFestivalController {
         if (result.hasError()) {
             throw new InvalidRestResultException(result.fail());
         }
-        return result.success("物販が正常に登録されました。");
+        return result.success("ミュージックフェスティバルが正常に登録されました。");
     }
 }

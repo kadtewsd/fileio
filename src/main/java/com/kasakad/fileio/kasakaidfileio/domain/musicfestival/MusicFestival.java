@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -23,6 +24,7 @@ import java.util.List;
 public abstract class MusicFestival {
 
     @Id
+    @GeneratedValue
     private Integer id;
 
     @Column(nullable = false )

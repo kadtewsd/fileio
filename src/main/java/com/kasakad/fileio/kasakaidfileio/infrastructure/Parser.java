@@ -2,6 +2,7 @@ package com.kasakad.fileio.kasakaidfileio.infrastructure;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -13,6 +14,10 @@ public class Parser {
 
     public DateTimeFormatter dateFormatter() {
         return DateTimeFormatter.ofPattern(LOCAL_DATE_FORMAT);
+    }
+
+    public String deserialize(LocalDateTime localDateTime) {
+        return dateTimeFormatter().format(localDateTime);
     }
 
     public DateTimeFormatter dateTimeFormatter() {

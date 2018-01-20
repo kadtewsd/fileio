@@ -23,7 +23,7 @@ public abstract class AbstractBaseTest {
 
     // 実行順序がよくわからないのでサブクラスからコールする
 //    @Before
-    public void setup() {
+    public void setUp() {
         testConfigApplication = new AnnotationConfigApplicationContext(TestConfig.class);
         myResource = testConfigApplication.getBean(MyResource.class);
     }
