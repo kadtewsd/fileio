@@ -58,7 +58,7 @@ public class MusicFestivalControllerTest extends AbstractRestTest {
                 .andExpect(jsonPath("$.musicFestival.eventDate", is(parser.deserialize(musicFestivalRequestDTO.getEventDate()))))
                 .andExpect(jsonPath("$.musicFestival.musicFestivalPlace.country", is(musicFestivalRequestDTO.getCountry())))
                 .andExpect(jsonPath("$.musicFestival.musicFestivalPlace.city", is(musicFestivalRequestDTO.getCity())))
-                .andExpect(jsonPath("$.musicFestival.musicFestival.place", is(musicFestivalRequestDTO.getPlace())))
+                .andExpect(jsonPath("$.musicFestival.musicFestivalPlace.place", is(musicFestivalRequestDTO.getPlace())))
         ;
         List<MusicFestival> musicFestivalList = repository.findAll();
 
