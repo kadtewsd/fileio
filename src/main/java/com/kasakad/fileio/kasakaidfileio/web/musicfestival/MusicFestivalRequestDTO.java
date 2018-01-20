@@ -3,12 +3,14 @@ package com.kasakad.fileio.kasakaidfileio.web.musicfestival;
 import com.kasakad.fileio.kasakaidfileio.domain.musicfestival.MusicFestival;
 import com.kasakad.fileio.kasakaidfileio.web.EntityCreator;
 import com.kasakad.fileio.kasakaidfileio.web.MappedDTO;
+import com.kasakad.fileio.kasakaidfileio.web.validation.TwoThousandTenConstraint;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@TwoThousandTenConstraint
 @RequiredArgsConstructor
 public class MusicFestivalRequestDTO extends MappedDTO {
 
