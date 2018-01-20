@@ -1,5 +1,6 @@
-package com.kasakad.fileio.kasakaidfileio.domain;
+package com.kasakad.fileio.kasakaidfileio.domain.artist;
 
+import com.kasakad.fileio.kasakaidfileio.domain.CSVOutputSpecification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

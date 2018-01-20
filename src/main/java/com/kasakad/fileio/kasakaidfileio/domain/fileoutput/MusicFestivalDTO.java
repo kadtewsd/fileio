@@ -4,19 +4,22 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.kasakad.fileio.kasakaidfileio.domain.Artist;
+import com.kasakad.fileio.kasakaidfileio.domain.artist.Artist;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @RequiredArgsConstructor
-@JsonPropertyOrder(value = {"フェス名", "開催場所", "アーティスト名", "メンバー数", "順番", "ジャンル"})
+@JsonPropertyOrder(value = {"フェス名", "日時", "開催場所", "アーティスト名", "メンバー数", "順番", "ジャンル"})
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.ANY, fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class MusicFestivalDTO {
 
-    public MusicFestivalDTO(int id, String name, String place, Artist artist, int playOrder) {
+    public MusicFestivalDTO(int id, String name, LocalDateTime eventDate, String place, Artist artist, int playOrder) {
         this.artist = artist;
-        this.festivalName = name;
+        this.eventDate = eventDate;
+        this.name = name;
         this.place = place;
         this.playOrder = playOrder;
         this.id = id;
@@ -29,7 +32,10 @@ public class MusicFestivalDTO {
     private int id;
 
     @JsonProperty("フェス名")
-    private final String festivalName;
+    private final String name;
+
+    @JsonProperty("日時")
+    private final LocalDateTime eventDate;
 
     @JsonProperty("開催場所")
     private final String place;

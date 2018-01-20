@@ -1,6 +1,7 @@
 package com.kasakad.fileio.kasakaidfileio.utility;
 
 import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import lombok.SneakyThrows;
@@ -17,6 +18,9 @@ public class TestFileReader {
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private TestInstanceCreator instanceCreator;
 
     @SneakyThrows
     public BufferedReader asReader(String folderName, String fileName) {
@@ -42,16 +46,18 @@ public class TestFileReader {
     }
 
     @SneakyThrows
-    public <T> List<T> convertCSVFile2DTO(String folderName, String fileName, Class<T> clz) {
-        BufferedReader reader = asReader(folderName, fileName);
-        String csvFile = toCSV(reader);
+    public <T> List<T> convertCSVFile2DTO(String folderName, String fileName, Class<T> clz, CsvSchema csvSchema) {
+        BufferedReader bufferedReader = asReader(folderName, fileName);
+        String csvFile = toCSV(bufferedReader);
 
-        CsvMapper csvMapper = new CsvMapper();
-        CsvSchema schema = csvMapper.schemaFor(clz).withHeader();
-        MappingIterator<T> it = csvMapper.readerFor(clz)
-                .with(schema)
-                .readValues(csvFile);
-
+        CsvMapper csvMapper = instanceCreator.csvObjectMapper();
+        ObjectReader reader = csvMapper.readerFor(clz).with(csvSchema.withHeader());
+        // 順番を決めるためには @JsonPropertyOrder アノテーションが必要
+//        CsvSchema schema = csvMapper.schemaFor(clz).withHeader();
+//        MappingIterator<T> it = csvMapper.readerFor(clz)
+//                .with(schema)
+//                .readValues(csvFile);
+        MappingIterator<T> it = reader.readValues(csvFile);
         return it.readAll();
     }
 }

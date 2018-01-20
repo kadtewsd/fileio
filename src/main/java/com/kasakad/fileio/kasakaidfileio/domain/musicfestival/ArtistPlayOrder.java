@@ -1,5 +1,6 @@
-package com.kasakad.fileio.kasakaidfileio.domain;
+package com.kasakad.fileio.kasakaidfileio.domain.musicfestival;
 
+import com.kasakad.fileio.kasakaidfileio.domain.artist.Artist;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

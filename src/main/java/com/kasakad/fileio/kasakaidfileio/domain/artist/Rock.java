@@ -1,4 +1,6 @@
-package com.kasakad.fileio.kasakaidfileio.domain;
+package com.kasakad.fileio.kasakaidfileio.domain.artist;
+
+import com.kasakad.fileio.kasakaidfileio.domain.CSVOutputSpecification;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

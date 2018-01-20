@@ -1,6 +1,7 @@
-package com.kasakad.fileio.kasakaidfileio.repository;
+package com.kasakad.fileio.kasakaidfileio.infrastructure.repository;
 
-import com.kasakad.fileio.kasakaidfileio.domain.MusicFestival;
+import com.kasakad.fileio.kasakaidfileio.domain.musicfestival.MusicFestival;
+import com.kasakad.fileio.kasakaidfileio.domain.musicfestival.MusicFestivalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +16,10 @@ public class MusicFestivalRepositoryImpl implements MusicFestivalRepository {
     @Override
     public List<MusicFestival> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public MusicFestival save(MusicFestival musicFestival) {
+        return repository.save(musicFestival);
     }
 }
