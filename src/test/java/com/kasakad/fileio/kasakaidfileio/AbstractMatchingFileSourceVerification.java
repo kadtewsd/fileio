@@ -25,7 +25,7 @@ public abstract class AbstractMatchingFileSourceVerification<T> {
     }
     protected abstract int verify(List<T> entityList);
 
-    public  abstract CsvSchema csvSchema();
+    protected abstract CsvSchema csvSchema();
 
     protected <Y> List<Y> getDTOFromFile(Class<Y> mappedClass) {
         return getDTOFromFile(folderName(), fileName(), mappedClass);

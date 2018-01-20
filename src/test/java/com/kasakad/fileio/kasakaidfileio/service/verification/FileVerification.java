@@ -43,8 +43,15 @@ public class FileVerification extends AbstractMatchingFileSourceVerification<Mus
         return result;
     }
 
+    /**
+     * DTO : eventDate
+     * DB (CSV) : event_date
+     * なので、シリアル化する時は明示的に DTO のフィールド名を指定しつつ、
+     * それが何番目に存在するかという情報を与えないと、うまくマップできない。
+     * @return
+     */
     @Override
-    public CsvSchema csvSchema() {
+    protected CsvSchema csvSchema() {
         return  CsvSchema.builder()
                 .addColumn("id")
                 .addColumn("name")
