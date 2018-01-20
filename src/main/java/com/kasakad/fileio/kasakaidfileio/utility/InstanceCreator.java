@@ -25,17 +25,18 @@ public class InstanceCreator {
      * CsvMapper を Bean 化すると、ApplicationContext#getBean("objectMapper") で取得される型が、
      * 必ず CsvMapper になり、Json のシリアライズ/デシリアライズをしたいのに、CsvMapper でシリアライズ/デシリアライズされる。
      * そのため、Spring に影響を与えないような形で bean にします。
+     *
      * @return
      */
     public CsvMapper csvObjectMapper() {
-        JavaTimeModule timeModule = new JavaTimeModule();
-        timeModule.addSerializer(LocalDate.class, new LocalDateSerializer(parser.dateFormatter()));
-        timeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(parser.dateFormatter()));
-        timeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(parser.dateTimeFormatter()));
-        timeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(parser.dateTimeFormatter()));
-
         return (CsvMapper) new CsvMapper()
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .registerModule(timeModule);
+                .registerModule(new JavaTimeModule()
+                        .addSerializer(LocalDate.class, new LocalDateSerializer(parser.dateFormatter()))
+                        .addDeserializer(LocalDate.class, new LocalDateDeserializer(parser.dateFormatter()))
+                        .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(parser.dateTimeFormatter()))
+                        .addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(parser.dateTimeFormatter()))
+                );
+
     }
 }
