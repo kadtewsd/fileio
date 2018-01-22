@@ -1,7 +1,6 @@
 package com.kasakad.fileio.kasakaidfileio.web.musicfestival;
 
 import com.kasakad.fileio.kasakaidfileio.domain.musicfestival.MusicFestival;
-import com.kasakad.fileio.kasakaidfileio.web.EntityCreator;
 import com.kasakad.fileio.kasakaidfileio.web.InvalidInformation;
 import com.kasakad.fileio.kasakaidfileio.web.MappedDTO;
 import com.kasakad.fileio.kasakaidfileio.web.validation.TwoThousandTenConstraint;
@@ -37,10 +36,6 @@ public class MusicFestivalRequestDTO extends MappedDTO {
 
     @NotNull
     private final MusicFestivalEntityType dtype;
-
-    public EntityCreator<MusicFestivalRequestDTO, ? extends MusicFestival> getCreator() {
-        return this.dtype.getCreator();
-    }
 
     @Override
     public List<InvalidInformation> validate() {
