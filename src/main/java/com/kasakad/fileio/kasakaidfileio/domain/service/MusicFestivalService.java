@@ -4,7 +4,6 @@ import com.kasakad.fileio.kasakaidfileio.domain.CSVOutputSpecification;
 import com.kasakad.fileio.kasakaidfileio.domain.fileoutput.MusicFestivalDTO;
 import com.kasakad.fileio.kasakaidfileio.domain.musicfestival.MusicFestival;
 import com.kasakad.fileio.kasakaidfileio.domain.musicfestival.MusicFestivalRepository;
-import com.kasakad.fileio.kasakaidfileio.web.EntityCreator;
 import com.kasakad.fileio.kasakaidfileio.web.InvalidInformation;
 import com.kasakad.fileio.kasakaidfileio.web.musicfestival.MusicFestivalRequestDTO;
 import lombok.RequiredArgsConstructor;
@@ -39,15 +38,14 @@ public class MusicFestivalService {
         return musiciansRepository.findAll();
     }
 
-    public MusicFestivalServiceResult register(MusicFestivalRequestDTO musticFestivalDTO) {
+    public MusicFestivalServiceResult register(MusicFestivalRequestDTO musicFestivalDTO) {
 
-        EntityCreator<MusicFestivalRequestDTO, ? extends MusicFestival> creator = musticFestivalDTO.getCreator();
-        List<InvalidInformation> invalidInformation = creator.validate(musticFestivalDTO);
+        List<InvalidInformation> invalidInformation = musicFestivalDTO.validate();
 
         if (invalidInformation.isEmpty()) {
             return new MusicFestivalServiceResult(
                 musiciansRepository.save(
-                        creator.createEntity(musticFestivalDTO)
+                        musicFestivalDTO.createEntity()
                 )
             );
         }

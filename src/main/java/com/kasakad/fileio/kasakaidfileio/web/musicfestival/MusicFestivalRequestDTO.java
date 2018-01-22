@@ -2,6 +2,7 @@ package com.kasakad.fileio.kasakaidfileio.web.musicfestival;
 
 import com.kasakad.fileio.kasakaidfileio.domain.musicfestival.MusicFestival;
 import com.kasakad.fileio.kasakaidfileio.web.EntityCreator;
+import com.kasakad.fileio.kasakaidfileio.web.InvalidInformation;
 import com.kasakad.fileio.kasakaidfileio.web.MappedDTO;
 import com.kasakad.fileio.kasakaidfileio.web.validation.TwoThousandTenConstraint;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @TwoThousandTenConstraint
 @RequiredArgsConstructor
@@ -38,5 +40,14 @@ public class MusicFestivalRequestDTO extends MappedDTO {
 
     public EntityCreator<MusicFestivalRequestDTO, ? extends MusicFestival> getCreator() {
         return this.dtype.getCreator();
+    }
+
+    @Override
+    public List<InvalidInformation> validate() {
+        return dtype.getCreator().validate(this);
+    }
+
+    public MusicFestival createEntity() {
+        return dtype.getCreator().createEntity(this);
     }
 }
