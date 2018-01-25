@@ -24,10 +24,14 @@ public abstract class AbstractBaseTest {
     // 実行順序がよくわからないのでサブクラスからコールする
 //    @Before
     public void setUp() {
-        testConfigApplication = new AnnotationConfigApplicationContext(TestConfig.class);
-        myResource = testConfigApplication.getBean(MyResource.class);
+//        testConfigApplication = new AnnotationConfigApplicationContext(TestConfig.class);
+        // gradlew で実行すると NoSuchBeanFoundException
+//        myResource = testConfigApplication.getBean(MyResource.class);
     }
 
+    // アノテーションを @TestComponent -> @Component に変えたので Injection ができる
+    // @TestComponent はなんら意味のないアノテーション
+    @Autowired
     @Rule
     //public にしないと怒られる
     public MyResource myResource;

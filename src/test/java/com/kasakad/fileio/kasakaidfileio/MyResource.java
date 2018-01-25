@@ -10,18 +10,20 @@ import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.rules.ExternalResource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-@TestComponent
+// @TestComponent は無意味なアノテーションなのでなくす
+//@TestComponent
+@Component
 @Slf4j
 public class MyResource extends ExternalResource {
 
