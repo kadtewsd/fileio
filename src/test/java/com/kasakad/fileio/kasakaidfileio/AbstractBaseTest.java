@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -19,13 +18,11 @@ public abstract class AbstractBaseTest {
     @Autowired
     protected ApplicationContext context;
 
-    protected ApplicationContext testConfigApplication;
-
     // 実行順序がよくわからないのでサブクラスからコールする
 //    @Before
     public void setUp() {
 //        testConfigApplication = new AnnotationConfigApplicationContext(TestConfig.class);
-        // gradlew で実行すると NoSuchBeanFoundException
+        // gradlew で実行すると NoSuchBeanFoundException。@TestComponent -> @Component を変えたことで Autowired できるようになった。
 //        myResource = testConfigApplication.getBean(MyResource.class);
     }
 
